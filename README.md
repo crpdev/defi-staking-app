@@ -1,4 +1,4 @@
-# defi-staking-app
+# Decentral Bank [defi-staking-app]
 
 An imaginary "Decentral Bank", where users [accounts] can deposit a custom token [like USDT] and earn reward tokens [RWD].
 
