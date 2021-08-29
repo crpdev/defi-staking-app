@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity >=0.8.0 <0.9.0;
 
 import './Tether.sol';
 import './Reward.sol';
@@ -10,6 +10,8 @@ contract DBank {
     string public name = 'Decentral Bank';
     Tether public tether;
     Reward public reward;
+
+    event Deposit(address indexed _sender, address indexed _receiver, uint256 _value);
     
     constructor(Tether _tether, Reward _reward) {
         owner = msg.sender;
@@ -31,14 +33,15 @@ contract DBank {
 
     // Staking function to deposit USDT tokens
     function depositTokens(uint256 _amount) public {
+        emit Deposit(msg.sender, address(this), _amount);
 
         // Enforce condition to check if staking amount is greater than zero
         require(_amount > 0, 'staking amount cannot be zero');
-
-        tether.transferFrom(msg.sender, address(this), _amount);
+        
+        tether.transferFrom(msg.sender, address(this), _amount);     
         
         // Update customer's staking balance
-        stakingBalance[msg.sender] += _amount;
+        stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
         if(!hasStaked[msg.sender]){
             stakers.push(msg.sender);
